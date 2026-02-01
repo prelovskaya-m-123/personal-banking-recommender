@@ -30,8 +30,9 @@ public class SimpleCreditRules implements RecommendationRules {
                 debitDeposits.compareTo(debitWithdrawals) > 0 &&
                 debitWithdrawals.compareTo(new BigDecimal("100000")) > 0
         ) {
+            String recommendationId = userId + "_SimpleCredit";
             return Optional.of(new RecommendationDto(
-                    "id из БД",
+                    recommendationId,
                     "Простой кредит",
                     "Откройте мир выгодных кредитов с нами!"
             ));
