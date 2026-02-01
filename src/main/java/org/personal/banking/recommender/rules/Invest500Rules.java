@@ -23,8 +23,9 @@ public class Invest500Rules implements RecommendationRules {
                 .sumByProductAndTransaction(userId, "SAVING", "DEPOSIT");
 
         if (hasDebit && !hasInvest && sumSaving.compareTo(BigDecimal.valueOf(1000)) > 0) {
+            String recommendationId = userId + "_Invest500";
             return Optional.of(new RecommendationDto(
-                    "id из базы данных",
+                    recommendationId,
                     "Invest 500",
                     "..."
             ));

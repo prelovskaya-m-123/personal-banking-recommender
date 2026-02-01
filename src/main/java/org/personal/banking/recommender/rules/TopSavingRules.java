@@ -35,8 +35,9 @@ public class TopSavingRules implements RecommendationRules {
                         savingDeposits.compareTo(new BigDecimal("50000")) >= 0) &&
                 debitDeposits.compareTo(debitWithdrawals) > 0
         ) {
+            String recommendationId = userId + "_TopSaving";
             return Optional.of(new RecommendationDto(
-                    "id из БД",
+                    recommendationId,
                     "Top Saving",
                     "Откройте свой накопительный счёт."
             ));
