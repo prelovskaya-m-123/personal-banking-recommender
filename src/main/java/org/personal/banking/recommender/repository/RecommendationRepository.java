@@ -28,7 +28,7 @@ public class RecommendationRepository {
         return count != null && count > 0;
     }
 
-    public BigDecimal sumByProductTypeAndTransactionType(
+    public BigDecimal sumByProductAndTransaction(
             UUID userId,
             String productType,
             String transactionType
@@ -51,5 +51,35 @@ public class RecommendationRepository {
         );
     }
 
+    public BigDecimal sumDebitDeposits(UUID userId) {
+        return sumByProductAndTransaction(userId, "DEBIT", "DEPOSIT");
+    }
 
+    /**
+     * Сумма всех трат по продуктам DEBIT
+     */
+    public BigDecimal sumDebitWithdrawals(UUID userId) {
+        return sumByProductAndTransaction(userId, "DEBIT", "WITHDRAWAL");
+    }
+
+    /**
+     * Сумма всех пополнений по продуктам SAVING
+     */
+    public BigDecimal sumSavingDeposits(UUID userId) {
+        return sumByProductAndTransaction(userId, "SAVING", "DEPOSIT");
+    }
+
+    /**
+     * Проверяет, использует ли пользователь кредитные продукты
+     */
+    public boolean hasCredit(UUID userId) {
+        return hasProductType(userId, "CREDIT");
+    }
+
+    /**
+     * Проверяет, использует ли пользователь инвестиционные продукты
+     */
+    public boolean hasInvest(UUID userId) {
+        return hasProductType(userId, "INVEST");
+    }
 }

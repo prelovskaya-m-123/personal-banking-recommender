@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Invest1000Rules implements RecommendationRules {
+public class Invest500Rules implements RecommendationRules {
     private final RecommendationRepository repository;
 
-    public Invest1000Rules(RecommendationRepository repository) {
+    public Invest500Rules(RecommendationRepository repository) {
         this.repository = repository;
 
     }
@@ -20,9 +20,9 @@ public class Invest1000Rules implements RecommendationRules {
         boolean hasDebit = repository.hasProductType(userId, "DEBIT");
         boolean hasInvest = repository.hasProductType(userId, "INVEST");
         BigDecimal sumSaving = repository
-                .sumByProductTypeAndTransactionType(userId, "SAVING", "DEPOSIT");
+                .sumByProductAndTransaction(userId, "SAVING", "DEPOSIT");
 
-        if (hasDebit && !hasInvest && sumSaving.compareTo(BigDecimal.valueOf(2000)) > 0) {
+        if (hasDebit && !hasInvest && sumSaving.compareTo(BigDecimal.valueOf(1000)) > 0) {
             return Optional.of(new RecommendationDto(
                     "id из базы данных",
                     "Invest 500",
