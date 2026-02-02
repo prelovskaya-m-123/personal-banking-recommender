@@ -18,11 +18,10 @@ public class RecommendationService {
     }
 
 
-    public List<RecommendationDto> getRecommendations(String userId) {
-        UUID uuid = UUID.fromString(userId);
+    public List<RecommendationDto> getRecommendations(UUID userId) {
 
         return rules.stream()
-                .map(rule -> rule.check(uuid))
+                .map(rule -> rule.check(userId))
                 .flatMap(Optional::stream)
                 .toList();
     }
