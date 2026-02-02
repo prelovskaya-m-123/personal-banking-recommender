@@ -17,11 +17,10 @@ public class RecommendationRepository {
 
     public boolean hasProductType(UUID userId, String productType) {
         String sql = """
-        SELECT COUNT(*) 
-        FROM transactions t
-        JOIN products p ON t.product_id = p.id
-        WHERE t.user_id = ?
-          AND p.type = ?
+        SELECT COUNT(*)
+        FROM TRANSACTIONS t
+        JOIN PRODUCTS p ON t.product_id = p.id
+        WHERE t.user_id = ? AND p.type = ?
     """;
 
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId, productType);
@@ -35,12 +34,13 @@ public class RecommendationRepository {
     ) {
         String sql = """
         SELECT COALESCE(SUM(t.amount), 0)
-        FROM transactions t
-        JOIN products p ON t.product_id = p.id
+        FROM TRANSACTIONS t
+        JOIN PRODUCTS p ON t.product_id = p.id
         WHERE t.user_id = ?
           AND p.type = ?
           AND t.type = ?
-    """;
+        """;
+
 
         return jdbcTemplate.queryForObject(
                 sql,
