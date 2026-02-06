@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-rule-conditions-table
+      author: your-name
+      preConditions:
+        onFail: CONTINUE
+        not:
+          tableExists:
+            tableName: rule_conditions
+      changes:
+        - createTable:
+            tableName: rule_conditions
+            columns:
+              - column:
+                  name: rule_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: query
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: arguments
+                  type: TEXT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: negate
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_rule_conditions_rule_id
+            baseTableName: rule_conditions
+            baseColumnNames: rule_id
+            referencedTableName: dynamic_rules
+            referencedColumnNames: id
+            onDelete: CASCADE
+            onUpdate: CASCADE
+
