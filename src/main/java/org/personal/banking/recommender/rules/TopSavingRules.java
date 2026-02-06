@@ -1,7 +1,7 @@
 package org.personal.banking.recommender.rules;
 
 import org.personal.banking.recommender.dto.RecommendationDto;
-import org.personal.banking.recommender.repository.RecommendationRepository;
+import org.personal.banking.recommender.h2.repository.RecommendationRepository;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
