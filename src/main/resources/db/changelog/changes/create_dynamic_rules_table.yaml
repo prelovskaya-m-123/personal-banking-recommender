@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-dynamic-rules-table
+      author: your-name
+      preConditions:
+        onFail: CONTINUE
+        not:
+          tableExists:
+            tableName: dynamic_rules
+      changes:
+        - createTable:
+            tableName: dynamic_rules
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: product_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: product_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+              - column:
+                  name: product_text
+                  type: TEXT
+                  constraints:
+                    nullable: true
