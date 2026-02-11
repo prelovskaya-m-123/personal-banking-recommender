@@ -21,6 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+
 @WebMvcTest(DynamicRuleController.class)
 @AutoConfigureMockMvc
 public class DynamicRuleControllerTest {
@@ -62,10 +66,9 @@ public class DynamicRuleControllerTest {
         mockMvc.perform(post("/rule")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.product_name")
-                        .value("Простой кредит"));
+                .andExpect(jsonPath("$.productName").value("Простой кредит"));
     }
 
     /// GET ALL DYNAMIC RULES ///
@@ -79,8 +82,8 @@ public class DynamicRuleControllerTest {
 
         mockMvc.perform(get("/rule"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data.length()").value(2));
+                .andExpect(jsonPath("$").isArray())          // просто массив
+                .andExpect(jsonPath("$.length()").value(2)); // длина массива = 2
     }
 
     /// DELETE RULE ///
