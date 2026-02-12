@@ -3,4 +3,5 @@ databaseChangeLog:
       file: db/changelog/changes/create_dynamic_rules_table.yaml
   - include:
       file: db/changelog/changes/create_rule_conditions_table.yaml
-
+  - include:
+      file: db/changelog/changes/add-arguments-array.yaml
