@@ -31,7 +31,7 @@ public class TopSavingRules implements RecommendationRules {
         BigDecimal debitWithdrawals = repository.sumByProductAndTransaction(
                 userId, "DEBIT", "WITHDRAWAL");
 
-        // Сравниваем BigDecimal через compareTo
+// Сравниваем BigDecimal через compareTo
         if (hasDebit &&
                 (debitDeposits.compareTo(new BigDecimal("50000")) >= 0 ||
                         savingDeposits.compareTo(new BigDecimal("50000")) >= 0) &&

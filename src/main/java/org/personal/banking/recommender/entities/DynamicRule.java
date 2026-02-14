@@ -24,8 +24,7 @@ public class DynamicRule {
     @Column(name = "product_text")
     private String productText;
 
-    @ElementCollection
-    @CollectionTable(name = "rule_conditions", joinColumns = @JoinColumn(name = "rule_id"))
+    @OneToMany(mappedBy = "rule", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<RuleCondition> conditions = new ArrayList<>();
 
 
@@ -73,7 +72,7 @@ public class DynamicRule {
     }
 
     public List<RuleCondition> getConditions() {
-        return conditions != null ? conditions : new ArrayList<>();
+        return conditions;
     }
 
     public void setConditions(List<RuleCondition> conditions) {

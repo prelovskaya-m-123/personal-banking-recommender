@@ -1,7 +1,73 @@
 databaseChangeLog:
-  - include:
-      file: db/changelog/changes/create_dynamic_rules_table.yaml
-  - include:
-      file: db/changelog/changes/create_rule_conditions_table.yaml
-  - include:
-      file: db/changelog/changes/add-arguments-array.yaml
+  - changeSet:
+      id: 001-create-dynamic-rules-table
+      author: liquibase-user
+      preConditions:
+        onFail: HALT  # Было: CONTINUE → теперь останавливает выполнение при ошибке
+        not:
+          tableExists:
+            tableName: dynamic_rules
+      changes:
+        - createTable:
+            tableName: dynamic_rules
+            columns:
+              - column:
+                  name: product_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: product_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+              - column:
+                  name: product_text
+                  type: VARCHAR(4000)
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: 002-create-rule-conditions-table
+      author: liquibase-user
+      preConditions:
+        onFail: HALT  # Было: CONTINUE → теперь останавливает выполнение при ошибке
+        not:
+          tableExists:
+            tableName: rule_conditions
+      changes:
+        - createTable:
+            tableName: rule_conditions
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: rule_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKey:
+                      name: fk_rule_conditions_rule_id
+                      referencedTableName: dynamic_rules
+                      referencedColumnNames: id
+                      onDelete: CASCADE
+              - column:
+                  name: query
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: arguments
+                  type: ARRAY
+                  constraints:
+                    nullable: true
+              - column:
+                  name: negate
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false

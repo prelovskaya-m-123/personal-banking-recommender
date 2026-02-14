@@ -19,7 +19,8 @@ public class DynamicRuleService {
     private static final Logger logger = LoggerFactory.getLogger(DynamicRuleService.class);
 
 
-    public DynamicRuleService(DynamicRuleRepository repository) {this.repository = repository;
+    public DynamicRuleService(DynamicRuleRepository repository) {
+        this.repository = repository;
     }
 
     // 1. Добавление правила
@@ -56,25 +57,11 @@ public class DynamicRuleService {
     // 3. Получение всех правил
     public List<DynamicRule> getAllRules() {
         try {
-            logger.info("Начинаем загрузку всех правил из БД");
-            List<DynamicRule> rules = repository.findAll();
-            for (DynamicRule rule : rules) {
-                if (rule.getConditions() == null) {
-                    rule.setConditions(Collections.emptyList());
-                }
-                for (RuleCondition condition : rule.getConditions()) {
-                    if (condition.getArguments() == null) {
-                        condition.setArguments(new ArrayList<>());
-                    }
-                }
-            }
-
-            logger.info("Загружено {} правил из БД", rules.size());
-            return rules;
-        } catch (Exception e) {
-            logger.error("Критическая ошибка при загрузке правил из БД. Сообщение: {}",
-                    e.getMessage(), e);
-            throw e;
+            return repository.findAll();
+        } catch (org.hibernate.HibernateException e) {
+            logger.error("Ошибка при загрузке правил из БД", e);
+            return Collections.emptyList();
         }
+
     }
-}
+    }

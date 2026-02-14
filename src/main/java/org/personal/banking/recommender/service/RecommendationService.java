@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class RecommendationService {
@@ -21,10 +22,16 @@ public class RecommendationService {
     public List<RecommendationDto> getRecommendations(UUID userId) {
 
         return rules.stream()
-                .map(rule -> rule.check(userId))
-                .flatMap(Optional::stream)
-                .toList();
+                .map(rule -> {
+                    try {
+                        return rule.check(userId);
+                    } catch (Exception e) {
+                        System.err.println("Ошибка в правиле " + rule.getClass().getSimpleName() + ": " + e.getMessage());
+                        return Optional.empty();
+                    }
+                })
+                .flatMap(opt -> ((Optional<RecommendationDto>) opt).stream())
+                .collect(Collectors.toList());
+
     }
-
-
 }
